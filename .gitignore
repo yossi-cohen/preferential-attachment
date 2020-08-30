@@ -1,4 +1,5 @@
 **/*.ipynb_checkpoints/
 notebooks/data/
 notebooks/models/
+notebooks/backup/
 
