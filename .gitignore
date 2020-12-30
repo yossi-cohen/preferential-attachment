@@ -3,3 +3,4 @@ notebooks/data*
 notebooks/models/
 notebooks/backup/
 .vscode/
+*~
