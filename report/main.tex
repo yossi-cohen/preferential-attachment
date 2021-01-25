@@ -859,8 +859,17 @@ We can see $ttest(DNN, CNN)$ for $N >= 256$ pops out, compatible with Figure \re
 \end{enumerate}
 
 \section{FURTHER INVESTIGATION}
-There are still some open issues left for future investigation.
-TODO
+There are some issues and subjects left for further investigation. \\
+Here is a partial list:
+
+\begin{itemize}
+\small
+    \item In table \ref{table:sqrt-mse-comparison} and also in figure \ref{fig:mse-alpha-comparison} we can see an error increase for $N=128$. This behaviour is repeated in several test runs and can be seen also in the \textit{CNN} based models. In \textit{DNN} this behaviour pops up also for $N=1024$. We cannot yet explain this.
+    
+    \item We invested relatively little effort in optimizing the models, especially the \textit{multi-layer CNN} model. Further optimization or different network architectures may achieve yet better performance.
+    
+    \item A followup project may use \textit{DL} to classify observed data as one that obeys \textit{power law} distribution from other distributions.
+\end{itemize}
 
 \printbibliography
 \end{document} 
