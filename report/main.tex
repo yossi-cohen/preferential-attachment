@@ -33,6 +33,7 @@
 \usepackage{lmodern}
 \usepackage{minted}
 \usepackage{colortbl}
+\usepackage[section]{placeins}
 
 \hypersetup{
     colorlinks=true,
@@ -117,22 +118,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Abstract %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\newpage
 \begin{abstract}
-Many of the things that we measure have a \textit{typical value} around which individual measurements are centred. A simple example would be the heights of human beings. Most adult human beings (in the U.S) are about 180 cm tall. There is some variation around this figure, notably depending on sex, but we never see people who are 10 cm tall, or 500 cm. Other examples would be e.g., shoe sizes and speed of cars on the motorway.
-
-However, not all things we measure are peaked around a typical value. Some vary over an enormous dynamic range, sometimes many orders of magnitude. 
-
-When the probability of measuring a particular value of some quantity varies inversely as
-a power of that value, the quantity is said to follow a \textit{power law}, also known as \textit{Zipf’s law} or the \textit{Pareto distribution}. 
-
 Power laws appear widely in physics, biology, earth and planetary sciences, economics and finance, computer science, demography and social sciences. For instance, the distributions of the sizes of cities, earthquakes, forest fires, solar flares, moon craters and people’s personal fortunes all appear to follow power laws.
-
-The origin of power-law behaviour has been a topic of debate in the scientific
-community for more than a century.
 
 In his paper "Power laws, Pareto distributions and Zipf’s law", Newman review some of the empirical evidence for the existence of power-law forms and the theories proposed to explain them.
 
-
-{\bf In this project} we show, contrary to the common claim, that a key property of such \textit{power law} distribution, concretely  \textit{Yule-Simon distribution}, can be estimated with a reasonable accuracy using machine learning methods.
+{\bf In this project} we show, that a key property of such \textit{power law} distribution, concretely  \textit{Yule-Simon distribution}, can be in fact estimated with a reasonable accuracy using machine learning methods.
 
 \vspace{0.3cm}
 
@@ -149,23 +139,93 @@ In his paper "Power laws, Pareto distributions and Zipf’s law", Newman review 
 \chapter{INTRODUCTION}
 
 \section{Background}
-TODO
+In his paper "Power laws, Pareto distributions and Zipf’s law" \cite{newman}, Newman review some of the empirical evidence for the existence of power-law forms and the theories proposed to explain them. This section is mostly a short summary from this paper.
 
-Here I intend to introduce some examples of power law distributions and the mathematical background to explain them (repeat key topics from Newman`s paper)
+Many of the things that we measure have a \textit{typical value} around which individual measurements are centred. A simple example would be the heights of human beings. Most adult human beings (in the U.S) are about 180 cm tall. There is some variation around this figure, notably depending on sex, but we never see people who are 10 cm tall, or 500 cm. Other examples would be e.g., shoe sizes and speed of cars on the motorway.
 
-\section{Previous work}
-TODO
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.7\linewidth]{./heights-of-males}
+\caption{Newman-2004: distributions centered around a typical value}
+\label{fig:heights-of-males}
+\end{figure}
 
-Describe key points from Newman's paper
+However, not all things we measure are peaked around a typical value. Some vary over an enormous dynamic range, sometimes many orders of magnitude. 
+
+When the probability of measuring a particular value of some quantity varies inversely as
+a power of that value, the quantity is said to follow a \textit{power law}, also known as \textit{Zipf’s law} or the \textit{Pareto distribution}. 
+
+\newpage
+Power laws appear widely in physics, biology, earth and planetary sciences, economics and finance, computer science, demography and social sciences. For instance, the distributions of the sizes of cities, earthquakes, forest fires, solar flares, moon craters and people’s personal fortunes all appear to follow power laws.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.7\linewidth]{./population-of-cities}
+\caption{Newman-2004: population of cities}
+\label{fig:populations-of-cities}
+\end{figure}
+
+Figure \ref{fig:populations-of-cities} (left) shows the histogram of city sizes. On the same figure (right), the histogram is shown in a log-log scale. The histogram, plotted in this fashion follow quite closely a straight line (this observation is attributed to Zipf).
+
+Let $p(x)dx$ be the fraction of cities with population between $x$ and $x+dx$. If the histogram is a straight line on log-log scales, then $ln p(x) = - \alpha ln(x) + c$, where $\alpha$ and $c$ are constants. Taking
+the exponential of both sides, we get:
+
+\begin{equation}
+\label{eq:powerlaw}
+p(x) = Cx^{- \alpha}
+\end{equation}
+with $C = e^c$.
+
+Distributions of the form \ref{eq:powerlaw} are said to follow a power law. The constant $\alpha$ is called the exponent of the power law. (The constant $C$ is mostly uninteresting; once $\alpha$ is fixed, it is determined by the requirement that the distribution $p(x)$ sum to 1).
+
+\newpage
+\subsection{Measuring power laws}
+The standard strategy for identifying power-law behaviour is to plot a histogram on a logarithmic scale where it appears as a straight line. Figure \ref{fig:histogram-1-million} shows a fake data set generated from 1 million random numbers with a power law distribution $p(x) = Cx^{- \alpha}$ with $\alpha=-2.5$
+
+Panel (a) of the figure shows a normal histogram of the numbers, produced by binning them into bins of equal size $(0.1)$.
+
+Plotting the histogram on logarithmic scales reveals the straight line behavior as can be seen in Panel (b). However, the right-hand end of the distribution is noisy because of sampling errors. In this region, each bin only has a few samples in it, if any. So the fractional fluctuations in the bin counts are large and this appears as a noisy curve on the plot.
+
+In panel (c), the width of the bins in the histogram is plotted with \textit{logarithmic binning}, meaning the width of each bin is a multiple of the previous one $(0.1,0.2,0.4,...)$. The sample count is than normalized by dividing the number of samples in a bin of width $\Delta x$ by $\Delta x$. This means the bins in the tail of the distribution get more samples than they would if bin sizes were fixed, and this reduces the statistical errors in the tail.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.7\linewidth]{./histogram-1-million}
+\caption[Newman-2004: histograms of 1 million random numbers]{Newman-2004: histograms of 1 million random numbers with power law distribution}
+\label{fig:histogram-1-million}
+\end{figure}
+
+Even with logarithmic binning there is still some noise in the tail, although it is sharply decreased. As long as $\alpha > 1$, the number of samples per bin goes down as $k$ increases and the bins in the tail will have more statistical noise than those that precede them. As shown in \cite{newman}, most power-law distributions occurring in nature have $2 \leq \alpha \leq 3$, so noisy tails are the norm.
+
+Another method of plotting the data shown in panel (d) is to calculate a \textit{cumulative distribution function}, in which we make a plot of the probability $P(x)$ that $x$ has a value greater than or equal to $x$:
+
+\begin{equation}
+\label{eq:cumsum}
+p(x) = \int_{x}^{\infty} p(x')\, dx'
+\end{equation}
+
+The \textit{cumulative distribution} also follows power law, but with an exponent of $\alpha – 1 = 1.5$. Thus, we get again a straight line but with a shallower slope.
 
 \section{Motivation}
-TODO
+We know the value of the exponent $\alpha$ for the artificial data set since it was generated deliberately to have a particular value, but in practical situations we would often like to \textbf{estimate $\alpha$ from observed data}.
 
-Here I intend to quote Newman's claim that alpha cannot be estimated correctly using line fit methods on the histogram logarithmic binning (page 5).
+As stated in \cite{newman}, one way to do this would be to fit the slope of the line in plots like figures \ref{fig:histogram-1-million} (b), (c) or (d), and this is the most commonly used method.
+Unfortunately, it is known to introduce systematic biases into the value of the exponent [20], so it should not be relied upon. For example, a least-squares fit of a straight line to
+figure 3 (b) gives a = 2.26 +0.02, which is clearly incompatible with the known value of a= 2.5 from which the data were generated.
 
-I want to emphasize that if machine learning methods can estimate alpha correctly (with an acceptable error) than this preliminary result motivates further investigation on harnessing such methods for identifying power law distributions and maybe classifying distributions as such.
+\textbf{In this project}, we develop an alternative and reliable method for extracting the exponent with an acceptable error using \textit{Deep Learning} methods. Than, this preliminary result will motivate further investigation on harnessing such methods for identifying power law distributions and maybe classifying distributions as such.
 
 \pagebreak
+\section{Preferential Attachment}
+\textit{Preferential Attachment} is a another model which has properties of the \textit{power law} distribution. It is best explaining the \textit{Preferential Attachment} model by an example (e.g: on a node network).
+\begin{itemize}
+  \item We start with two nodes connected by an edge.
+  \item At each time step, add a new node with an edge connecting it to a single existing node. 
+  \item Choose the node to connect to at random with probability proportional to the node`s current degree.
+  \item The probability of connecting to a node $u$ of degree $k_u$ is $\frac{k_u}{\sum_j{k_j}}$
+\end{itemize}
+
+
 \section{Yule process}
 \par \textit{Preferential Attachment} may be realized using the \textit{Yule process}  \cite{yule-simon-distribution}.
 
@@ -211,46 +271,23 @@ As an example: N = 10000; k0 = 10; m = 3
     }
 \end{figure}
 
-\pagebreak
-\chapter{PROBLEM  STATEMENT}
-
 \section{Problem Statement}
-\par The first line of the first paragraph under each heading should start from left-hand margins without indentation.  Text of abstract should be typed in Times New Roman, 12pt. Keywords should be written in Times New Roman, 12pt, Italic.
+\par Given a collection of samples drawn from the \textit{Yule-Simon} distribution with a known $\alpha$, the \textbf{task} of the machine learning model is to \textbf{discover $\alpha$} within a specified bounded error: $\mid prediced(\alpha) - \alpha \mid <= 0.01$
 
-\section{Explanation}
-\par The first line of the first paragraph under each heading should start from left-hand margins without indentation.  Text of abstract should be typed in Times New Roman, 12pt. Keywords should be written in Times New Roman, 12pt, Italic.\\
-\begin{table}[h]
-
-\begin{center}
- \begin{tabular}{||c|c|c|c||} 
-
- \hline
- Col1 & Col2 & Col2 & Col3 \\ [0.5ex] 
- \hline\hline
- 1 & 6 & 87837 & 787 \\ 
- \hline
- 2 & 7 & 78 & 5415 \\
- \hline
- 3 & 545 & 778 & 7507 \\
- \hline
- 4 & 545 & 18744 & 7560 \\
- \hline
- 5 & 88 & 788 & 6344 \\ 
- \hline
-\end{tabular}
-\caption{table name}
-\end{center}
-\end{table}
-
-\chapter{SOFTWARE REQUIREMENT SPECIFICATION}
-
-\section{Software and Hardware Requirement}
-\par The first line of the first paragraph under each heading should start from left-hand margins without indentation.  Text of abstract should be typed in Times New Roman, 12pt. Keywords should be written in Times New Roman, 12pt, Italic.
-
-\subsection{Description}
-\par The first line of the first paragraph under each heading should start from left-hand margins without indentation.  Text of abstract should be typed in Times New Roman, 12pt. Keywords should be written in Times New Roman, 12pt, Italic.
+\par A simulator will be written to generate the data for learning and testing purposes, so there is no limit on the available data size.
 
 \chapter{PROJECT IMPLEMENTATION}
+
+\section{Software requirements}
+The project was developed with \textit{Python 3.8} under \textit{Jupyter notebook}.
+
+I advise on working with \textit{Python Virtual Environment}.
+
+The \textit{Keras} framework was used for developing the machine learning models.
+
+Source code can be found \href{https://github.com/yossi-cohen/preferential-attachment}{here}.
+
+\textit{numpy/scipy} and other required python packages are listed in \textit{requirements.txt}.
 
 \section{Dataset}
 \label{dataset}
@@ -259,10 +296,10 @@ As an example: N = 10000; k0 = 10; m = 3
 
 \par As an example, the following will generate $1000$ random numbers for a given $alpha=\alpha$
 \begin{equation}
-\label{eq:1}
+\label{eq:yulesimon.rvs}
 r = yulesimon.rvs(alpha=\alpha, size=1000)
 \end{equation}
-The $generate\_data()$ function uses \ref{eq:1} to draw $N$ random samples for each $\alpha$ in the range: $[min\_alpha, max\_alpha]$ with $S$ $yulesimon.rvs$ calls for each $\alpha$, yielding the following dataset:\\
+The $generate\_data()$ function uses \ref{eq:yulesimon.rvs} to draw $N$ random samples for each $\alpha$ in the range: $[min\_alpha, max\_alpha]$ with $S$ $yulesimon.rvs$ calls for each $\alpha$, yielding the following dataset:\\
 (Concatenated as a single matrix $YS = [(M * S), N]$)
 \begin{itemize}
   \item $N$ (columns): number of samples drawn for a given $\alpha$
@@ -303,7 +340,7 @@ samples(\alpha_M) = \begin{bmatrix}
 
 \par A histogram $H$ is then created for rows of $[YS]$ where: 
 \begin{equation}
-\label{eq:2}
+\label{eq:nbins}
 \textbf {nbins} = max(YS)
 \end{equation}
 
@@ -318,13 +355,13 @@ samples(\alpha_M) = \begin{bmatrix}
 
 \par Finally, we apply $log_{10}$ on $H$ rows:
 \begin{equation}
-\label{eq:3}
+\label{eq:log_H}
     {\textbf X} = log_{10}(H)
 \end{equation}
 
 We set:
 \begin{equation}
-\label{eq:4}
+\label{eq:5}
 {\textbf y} = \begin{bmatrix} 
     \alpha_1 & \\
     \alpha_2 & \\
@@ -805,7 +842,7 @@ We can see $ttest(DNN, CNN)$ for $N >= 256$ pops out, compatible with Figure \re
         $CNN$ & $CNN_m$ & 256 & 5 & 0.57363 \\ 
         \hline
     \end{tabular}
-    \caption{model comparison t-test results}
+    \caption{t-test model comparison}
     \label{table:9}
 \end{table}
 
