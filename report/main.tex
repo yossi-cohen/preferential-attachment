@@ -42,111 +42,107 @@
     urlcolor=cyan,
 }
 
+% acronyms
+\usepackage{acronym} 
+
 %\lhead{}
 %\rhead{Project Report - Preferential Attachment with machine learning}
 %\lfoot{Open University of Israel - Dept. of Mathematics and Computer Science}
 
+%========================= BEGIN DOCUMENT ================================= %
+
 \begin{document}
 
-%========================== begin of title page ================================ %
 % The frontmatter environment for everything that comes with roman numbering
 \newenvironment{frontmatter}{}{}
 \begin{frontmatter}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%========================= TITLE-PAGE ================================= %
 \begin{titlepage}
-%\AddToShipoutPictureBG{%
-\begin{tikzpicture}[overlay,remember picture]
-\draw[line width=4pt]
-    ($ (current page.north west) + (1cm,-1cm) $)
-    rectangle
-    ($ (current page.south east) + (-1cm,1cm) $);
-\draw[line width=1.5pt]
-    ($ (current page.north west) + (1.2cm,-1.2cm) $)
-    rectangle
-    ($ (current page.south east) + (-1.2cm,1.2cm) $);
-\end{tikzpicture}
-%}
-\begin{center}
-\textup{\large \textbf{The Open University of Israel}}\\[0.5cm]
-\textbf{\large Department of Mathematics and Computer Science}
-
-%-------------------------------------- Figure -----------------------------------
 
 \begin{center}
-\begin{figure}[h]  %h means here other options t , b, p, etc.
+\large\textbf{The Open University of Israel}\\
+\textit{Department of Mathematics and Computer Science}
+
+% LOGO (OU) -------------------------------------
+\begin{center}
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.3\linewidth]{./logo}
 \end{figure}
 \end{center}
+%------------------------------------------------
 
-%---------------------------------------------------------------------------------
+\textup{\large A PROJECT REPORT\\on}
 
-\textup{\large A PROJECT REPORT\\[0.4cm]ON}\\[0.4cm]
 \begin{LARGE}
-{\textbf {Preferential Attachment }}\\
-{\textbf {using machine learning }}\\[1cm]
+{\textbf {Preferential Attachment\\using machine learning}}
 \end{LARGE}
-\textit{SUBMITTED BY}\\[0.3cm]
-\begin{large}
-\textbf{YOSSI COHEN}\\[0.3cm]
-\end{large}
-\textit{THE OPEN UNIVERSITY}\\[1cm]
-\textit{UNDER THE GUIDANCE OF}\\[0.3cm]
-\begin{large}\textbf{PROF. YOSSI GIL}\\[0.3cm]\end{large}
-\textit{THE TECHNION}\\[1cm]
-\textit{(2020-2021)}
-\vfill
+
+\textit{SUBMITTED BY}
+
+\begin{large}\textbf{YOSSI COHEN}\\\textit{THE OPEN UNIVERSITY}\end{large}
+
+\textit{UNDER THE GUIDANCE OF}
+
+\begin{large}\textbf{PROF. YOSSI GIL}\\\textit{THE TECHNION}\end{large}
+
+\begin{large}\textit{(2020-2021)}\end{large}
+
 \end{center}
 \end{titlepage}
 
-%========================== end of title page ================================ %
+%========================== ACKNOWLEDGEMENT ================================== %
 
-%------------------------------ ACKNOWLEDGEMENT --------------------------------
-\begin{center}
-{\Large{\bf{\textit{ACKNOWLEDGEMENT}}\\[2cm]}}
-\end{center}
+\section*{\begin{center}\textit{ACKNOWLEDGEMENT}\end{center}}
 
-\par\textit{I would like to thank {\bf Prof. Yossi Gil} for encouraging me to go ahead and for his continuous guidance with the project and assistance in preparing this report.}
+\textit{I would like to thank \emph{Prof. Yossi Gil} for encouraging me to go ahead and for his continuous guidance with the project and assistance in preparing this report.}
 
-\par\textit{I would also like to thank all those, who have directly or indirectly helped me for the completion of the work during this project.}
+\textit{I would also like to thank all those, who have directly or indirectly helped me for the completion of the work during this project.}
 
-%========================= table of contents ================================= %
+%========================= TABLE OF CONTENTS ================================= %
 \tableofcontents
 \listoffigures
 \listoftables
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Abstract %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\newpage
+%========================== ABSTRACT ================================== %
+
 \begin{abstract}
-Power laws appear widely in physics, biology, earth and planetary sciences, economics and finance, computer science, demography and social sciences. For instance, the distributions of the sizes of cities, earthquakes, forest fires, solar flares, moon craters and people’s personal fortunes all appear to follow power laws.
+Power laws appear widely in physics, biology, earth and planetary sciences, economics and finance, computer science, demography, and social sciences. For instance, the distributions of the sizes of cities, earthquakes, forest fires, solar flares, moon craters, and people’s personal fortunes all appear to follow power laws.
 
-In his paper "Power laws, Pareto distributions and Zipf’s law", Newman review some of the empirical evidence for the existence of power-law forms and the theories proposed to explain them.
+In his paper ``Power laws, Pareto distributions, and Zipf’s law", Newman reviews some of the empirical evidence for the existence of power-law forms and the theories proposed to explain them.
 
-{\bf In this project} we show, that a key property of such \textit{power law} distribution, concretely  \textit{Yule-Simon distribution}, can be in fact estimated with a reasonable accuracy using machine learning methods.
+In this project, we show that a key property of such \textit{power law} distribution, concretely  \textit{Yule-Simon distribution}, can be in fact estimated with a reasonable accuracy using machine learning methods.
 
 \vspace{0.3cm}
 
-\textbf{Keywords - }\it{\textbf{Preferential Attachment, Machine Learning.}}
+\textbf{Keywords}: \it{Preferential Attachment, Machine Learning}
 \end{abstract}
 %================================================ %
 % The frontmatter environment for everything that comes with roman numbering %
 \end{frontmatter}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
+
 \pagenumbering{arabic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAIN TEXT STARTS HERE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{INTRODUCTION}
 
 \section{Background}
-In his paper "Power laws, Pareto distributions and Zipf’s law" \cite{newman}, Newman review some of the empirical evidence for the existence of power-law forms and the theories proposed to explain them. This section is mostly a short summary from this paper.
+In his paper ``Power laws, Pareto distributions, and Zipf’s law" \cite{newman}, Newman reviews some of the empirical evidence for the existence of power-law forms and the theories proposed to explain them. This section is mostly a short summary of this paper.
 
-Many of the things that we measure have a \textit{typical value} around which individual measurements are centred. A simple example would be the heights of human beings. Most adult human beings (in the U.S) are about 180 cm tall. There is some variation around this figure, notably depending on sex, but we never see people who are 10 cm tall, or 500 cm. Other examples would be e.g., shoe sizes and speed of cars on the motorway.
+Many of the things that we measure have a \textit{typical value} around which individual measurements are centred. A simple example would be the heights of human beings. Most adult human beings (in the U.S) are about 180 cm tall. There is some variation around this figure, notably depending on sex, but we never see people who are 10 cm tall, or 500 cm. Other examples would be e.g., shoe size and speed of cars on the motorway.
 
-\begin{figure}[!htb]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.7\linewidth]{./heights-of-males}
-\caption{Newman-2004: distributions centered around a typical value}
+\caption{
+    Distributions centered around a typical value.  
+    Left: histogram of heights in centimetres of American males. Data from the National Health Examination Survey,
+    1959 – 1962 (US Department of Health and Human Services). Right: histogram of speeds in miles per hour of cars on UK
+    motorways. Data from Transport Statistics 2003 (UK Department for Transport).
+}
+
 \label{fig:heights-of-males}
 \end{figure}
 
@@ -155,17 +151,22 @@ However, not all things we measure are peaked around a typical value. Some vary 
 When the probability of measuring a particular value of some quantity varies inversely as
 a power of that value, the quantity is said to follow a \textit{power law}, also known as \textit{Zipf’s law} or the \textit{Pareto distribution}. 
 
-\newpage
-Power laws appear widely in physics, biology, earth and planetary sciences, economics and finance, computer science, demography and social sciences. For instance, the distributions of the sizes of cities, earthquakes, forest fires, solar flares, moon craters and people’s personal fortunes all appear to follow power laws.
 
-\begin{figure}[!htb]
+Power laws appear widely in physics, biology, earth and planetary sciences, economics and finance, computer science, demography, and social sciences. For instance, the distributions of the sizes of cities, earthquakes, forest fires, solar flares, moon craters, and people’s personal fortunes all appear to follow power laws.
+
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.7\linewidth]{./population-of-cities}
-\caption{Newman-2004: population of cities}
+\caption{
+Population of cities.  
+Left: histogram of the populations of all US cities with population of 10000 or more. Right: another histogram of
+the same data, but plotted on logarithmic scales. The approximate straight-line form of the histogram in the right panel
+implies that the distribution follows a power law. Data from the 2000 US Census.
+}
 \label{fig:populations-of-cities}
 \end{figure}
 
-Figure \ref{fig:populations-of-cities} (left) shows the histogram of city sizes. On the same figure (right), the histogram is shown in a log-log scale. The histogram, plotted in this fashion follow quite closely a straight line (this observation is attributed to Zipf).
+Figure \ref{fig:populations-of-cities} (left) shows the histogram of city sizes. In the same figure (right), the histogram is shown in a log-log scale. The histogram, plotted in this fashion follows quite closely a straight line (this observation is attributed to Zipf).
 
 Let $p(x)dx$ be the fraction of cities with population between $x$ and $x+dx$. If the histogram is a straight line on log-log scales, then $ln p(x) = - \alpha ln(x) + c$, where $\alpha$ and $c$ are constants. Taking
 the exponential of both sides, we get:
@@ -178,24 +179,26 @@ with $C = e^c$.
 
 Distributions of the form \ref{eq:powerlaw} are said to follow a power law. The constant $\alpha$ is called the exponent of the power law. (The constant $C$ is mostly uninteresting; once $\alpha$ is fixed, it is determined by the requirement that the distribution $p(x)$ sum to 1).
 
-\newpage
+
 \subsection{Measuring power laws}
 The standard strategy for identifying power-law behaviour is to plot a histogram on a logarithmic scale where it appears as a straight line. Figure \ref{fig:histogram-1-million} shows a fake data set generated from 1 million random numbers with a power law distribution $p(x) = Cx^{- \alpha}$ with $\alpha=-2.5$
 
 Panel (a) of the figure shows a normal histogram of the numbers, produced by binning them into bins of equal size $(0.1)$.
 
-Plotting the histogram on logarithmic scales reveals the straight line behavior as can be seen in Panel (b). However, the right-hand end of the distribution is noisy because of sampling errors. In this region, each bin only has a few samples in it, if any. So the fractional fluctuations in the bin counts are large and this appears as a noisy curve on the plot.
+Plotting the histogram on logarithmic scales reveals the straight line behavior as can be seen in Panel (b). However, the right-hand end of the distribution is noisy because of sampling errors. In this region, each bin only has a few samples in it, if any. Therefore the fractional fluctuations in the bin counts are large and this appears as a noisy curve on the plot.
 
-In panel (c), the width of the bins in the histogram is plotted with \textit{logarithmic binning}, meaning the width of each bin is a multiple of the previous one $(0.1,0.2,0.4,...)$. The sample count is than normalized by dividing the number of samples in a bin of width $\Delta x$ by $\Delta x$. This means the bins in the tail of the distribution get more samples than they would if bin sizes were fixed, and this reduces the statistical errors in the tail.
+In panel (c), the width of the bins in the histogram is plotted with \textit{logarithmic binning}, meaning the width of each bin is a multiple of the previous one $(0.1,0.2,0.4,...)$. The sample count is then normalized by dividing the number of samples in a bin of width $\Delta x$ by $\Delta x$. This means the bins in the tail of the distribution get more samples than they would if the bin sizes were fixed, and this reduces the statistical errors in the tail.
 
-\begin{figure}[!htb]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.7\linewidth]{./histogram-1-million}
-\caption[Newman-2004: histograms of 1 million random numbers]{Newman-2004: histograms of 1 million random numbers with power law distribution}
+\caption{
+    (a) Histogram of the set of 1 million random numbers described in the text, which have a power-law distribution with exponent a = 2.5. (b) The same histogram on logarithmic scales. Notice how noisy the results get in the tail towards the right-hand side of the panel. This happens because the number of samples in the bins becomes small and statistical fluctuations are therefore large as a fraction of sample number. (c) A histogram constructed using ‘logarithmic binning’. (d) A cumulative histogram or rank/frequency plot of the same data. The cumulative distribution also follows a power law, but with an exponent of a – 1 = 1.5
+}
 \label{fig:histogram-1-million}
 \end{figure}
 
-Even with logarithmic binning there is still some noise in the tail, although it is sharply decreased. As long as $\alpha > 1$, the number of samples per bin goes down as $k$ increases and the bins in the tail will have more statistical noise than those that precede them. As shown in \cite{newman}, most power-law distributions occurring in nature have $2 \leq \alpha \leq 3$, so noisy tails are the norm.
+Even with logarithmic binning there is still some noise in the tail, although it is sharply decreased. As long as $\alpha > 1$, the number of samples per bin goes down as $k$ increases and the bins in the tail will have more statistical noise than those that precede them. Most power-law distributions occurring in nature have $2 \leq \alpha \leq 3$ \cite{newman}, so noisy tails are the norm.
 
 Another method of plotting the data shown in panel (d) is to calculate a \textit{cumulative distribution function}, in which we make a plot of the probability $P(x)$ that $x$ has a value greater than or equal to $x$:
 
@@ -209,15 +212,14 @@ The \textit{cumulative distribution} also follows power law, but with an exponen
 \section{Motivation}
 We know the value of the exponent $\alpha$ for the artificial data set since it was generated deliberately to have a particular value, but in practical situations we would often like to \textbf{estimate $\alpha$ from observed data}.
 
-As stated in \cite{newman}, one way to do this would be to fit the slope of the line in plots like figures \ref{fig:histogram-1-million} (b), (c) or (d), and this is the most commonly used method.
+It is known \cite{newman} that one way of doing this would be to fit the slope of the line in plots like figures \ref{fig:histogram-1-million} (b), (c) or (d), and this is the most commonly used method.
 Unfortunately, it is known to introduce systematic biases into the value of the exponent [20], so it should not be relied upon. For example, a least-squares fit of a straight line to
 figure 3 (b) gives a = 2.26 +0.02, which is clearly incompatible with the known value of a= 2.5 from which the data were generated.
 
-\textbf{In this project}, we develop an alternative and reliable method for extracting the exponent with an acceptable error using \textit{Deep Learning} methods. Than, this preliminary result will motivate further investigation on harnessing such methods for identifying power law distributions and maybe classifying distributions as such.
+\textbf{In this project}, we develop an alternative and reliable method for extracting the exponent with an acceptable error using \textit{Deep Learning} methods. Then, this preliminary result will motivate further research on harnessing such methods for identifying power law distributions and maybe classifying distributions as such.
 
-\pagebreak
 \section{Preferential Attachment}
-\textit{Preferential Attachment} is a another model which has properties of the \textit{power law} distribution. It is best explaining the \textit{Preferential Attachment} model by an example (e.g: on a node network).
+\textit{Preferential Attachment} is a another model which has properties of the \textit{power law} distribution. It is best explaining the \textit{Preferential Attachment} model by example (e.g: on a node network).
 \begin{enumerate}
 \small
     \item We start with two nodes connected by an edge.
@@ -227,19 +229,23 @@ figure 3 (b) gives a = 2.26 +0.02, which is clearly incompatible with the known 
 \end{enumerate}
 
 \section{Yule process}
-\par \textit{Preferential Attachment} may be realized using the \textit{Yule process}  \cite{yule-simon-distribution}.
+\textit{Preferential Attachment} may be realized using the \textit{Yule process}  \cite{yule-simon-distribution}.
 
-\par An example \textit{Yule process} is implemented by following procedure:
-\par Distribute $N >> 1$ balls among urns iteratively using \textit{preferential attachment} policy.
+An example \textit{Yule process} is implemented by the following procedure:
 
-At each step, add a urn with initial $k_0$ balls and distribute $m$ balls among urns with probability proportional to the number of balls in each urn.\\
+Distribute $N \gg 1$ balls among urns iteratively using \textit{preferential attachment} policy.
+
+At each step, add a urn with initial $k_0$ balls and distribute $m$ balls among urns with a probability proportional to the number of balls in each urn.
+
 Run as many iterations as necessary to distribute all $N$ balls.
 
-\par Parameters:
+Parameters:
 \small
 \begin{addmargin}[1cm]{1cm}% 1cm left, 1cm right
-    $N: N >> 1$, the total number of balls we wish to distribute.\\
-    $m: 1 \leq m \leq 10$, the number of balls distributed at each iteration.\\
+    $N: N \gg 1$, the total number of balls we wish to distribute.
+    
+    $m: 1 \leq m \leq 10$, the number of balls distributed at each iteration.
+    
     $k_0: 1 \leq k_0 \leq 10$, the initial number of balls for a newly created urn.
 \end{addmargin}
 
@@ -247,7 +253,7 @@ Run as many iterations as necessary to distribute all $N$ balls.
 As an example: N = 10000; k0 = 10; m = 3
 }
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \centering
     % Requires \usepackage{graphicx}
     \subfloat[]{
@@ -265,7 +271,8 @@ As an example: N = 10000; k0 = 10; m = 3
         \label{fig:yule-process-histograms-1c}
     }
     \label{fig:yule-process-histograms}
-    \caption[Yule process histograms]{
+    \caption[]{
+        Yule process histograms: 
         $(a)$ A histogram of $N=10,000$ balls distributed to urns with \textit{Yule distribution}.
         $(b)$ The same histogram on logarithmic scale.
         $(c)$ A cumulative histogram of the same data.
@@ -275,34 +282,24 @@ As an example: N = 10000; k0 = 10; m = 3
 \chapter{PROJECT IMPLEMENTATION}
 
 \section{Problem Statement}
-\par Given a collection of generated samples drawn from the \textit{Yule-Simon} distribution with a known exponents $\alpha_1,...,\alpha_n$, the \textbf{task} of the learning model is to \textbf{predict $\alpha$} for a single sample of length $\geq m$ within a specified bounded error:
+Given a collection of generated samples drawn from the \textit{Yule-Simon} distribution with a known exponents $\alpha_1,...,\alpha_n$, the \textbf{task} of the learning model is to \textbf{predict $\alpha$} for a single sample of length $\geq m$ within a specified bounded error:
 $$\mid prediced(\alpha) - \alpha \mid \; \leq \; 0.01$$
 
-\par A simulator will be written to generate data for learning and testing purposes so there is no limit on the available dataset size.
-
-\section{Software requirements}
-The project was developed with \textit{Python 3.8} under \textit{Jupyter notebook}.
-
-I advise on working with \textit{Python Virtual Environment}.
-
-The \textit{Keras} framework was used for developing the machine learning models.
-
-Source code can be found \href{https://github.com/yossi-cohen/preferential-attachment}{here}.
-
-\textit{numpy/scipy} and other required python packages are listed in \textit{requirements.txt}.
+A simulator will be written to generate data for learning and testing purposes, so there is no limit on the available dataset size.
 
 \section{Dataset}
 \label{dataset}
 
-\par The datasets used in the project were generated using the \textbf{\textit{yulesimon}} distribution from \textbf{\textit{scipy.stat}} package.
+The datasets used in the project were generated using the \textbf{\textit{yulesimon}} distribution from \textbf{\textit{scipy.stat}} package.
 
-\par As an example, the following will generate $1000$ random numbers for a given $alpha=\alpha$
+As an example, the following will generate $1,000$ random numbers for a given $alpha=\alpha$
 \begin{equation}
 \label{eq:yulesimon.rvs}
-r = yulesimon.rvs(alpha=\alpha, size=1000)
+r = yulesimon.rvs(alpha=\alpha, size=1,000)
 \end{equation}
-The $generate\_data()$ function uses \ref{eq:yulesimon.rvs} to draw $N$ random samples for each $\alpha$ in the range: $[min\_alpha, max\_alpha]$ with $S$ $yulesimon.rvs$ calls for each $\alpha$, yielding the following dataset:\\
-(Concatenated as a single matrix $YS = [(M * S), N]$)
+$generate\_data()$ function uses \ref{eq:yulesimon.rvs} to draw $N$ random samples for each $\alpha$ in the range: $[min\_alpha, max\_alpha]$ with $S$ $yulesimon.rvs$ calls for each $\alpha$, yielding the following dataset:
+(concatenated as a single matrix $YS = [(M * S), N]$)
+
 \begin{itemize}
 \small
   \item $N$ (columns): number of samples drawn for a given $\alpha$
@@ -338,87 +335,65 @@ samples(\alpha_M) = \begin{bmatrix}
 \end{bmatrix}
 \]
 
-\par A histogram $H$ is then created for rows of $[YS]$ where: 
+A histogram $H$ is then created for rows of $[YS]$ where: 
 \begin{equation}
 \label{eq:nbins}
 \textbf {nbins} = max(YS)
 \end{equation}
-\[
-{\textbf H} = \begin{bmatrix} 
-    histogram(samples(\alpha_1), nbins) & \\
-    histogram(samples(\alpha_2), nbins) & \\
-    \vdots & \\
-    histogram(samples(\alpha_S), nbins) & \\
-\end{bmatrix}
-\]
+$H$ is therefore a matrix of size $[(M * S), nbins]$.  Each row $H_i$ is a histogram with $nbins$ corresponding to an input row $YS_i$. $H_i$ is counting the number of samples of the corresponding input row $YS_i$ in each bin.
 
-\par Finally, we apply $log_{10}$ on $H$ rows:
+Finally, we apply $\log$ on $H$ rows to get the input $X$ to the learning process:
 \begin{equation}
 \label{eq:log_H}
-    {\textbf X} = log_{10}(H)
+    {\textbf X} = \log(H)
 \end{equation}
-
-We set:
+We set the output $y$ as:
 \begin{equation}
 \label{eq:y}
 {\textbf y} = \begin{bmatrix} 
     \alpha_1 & \\
+    \alpha_1 & \\
+    \hdots & \\
     \alpha_2 & \\
-    \vdots & \\
+    \alpha_2 & \\
+    \hdots & \\
     \alpha_M & \\
 \end{bmatrix}
 \end{equation}
 
 \begin{itemize}
-  \item note: $y$ contains $S$ copies for each of $\alpha_1...\alpha_M$ for total length of $[S*M]$
+  \item NOTE: $y$ contains $S$ copies for each $\alpha_1...\alpha_M$ for total length of $[S*M]$
 \end{itemize}
 
-The $generate\_data()$ function returns: $(X, y, nbins)$ as an input for the learning process.
+$generate\_data()$ function returns: $(X, y, nbins)$ as an input for the learning process.
 
-\newpage
-\par An example of a single row in $X = log(H)$ is shown in figure  \ref{fig:yule-simon-log-scale}
+An example of a single row in $X = \log(H)$ is shown in figure  \ref{fig:yule-simon-log-scale}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.7\linewidth]{./dataset}
-\caption[Yule-Simon log-scale]{$X = log(H)$ for $\alpha\in[2.0,3.0], N=2048$ \\(140 bins = $max(X)$)}
+\caption{Yule-Simon distribution in log-scale $X = \log(H)$ for $\alpha\in[2.0,3.0], N=2,048$ (140 bins = $max(X)$)}
 \label{fig:yule-simon-log-scale}
 \end{figure}
 
 \textit{Note}: We will see later that padding bins with zero value at the right end improves the $NN$ model accuracy (figure  \ref{fig:yule-simon-log-scale-zeros-padding})
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.7\linewidth]{./dataset-zeros}
-\caption[Yule-Simon log-scale with zero padding]{Yule-Simon samples for $\alpha\in[2.0,3.0], N=2048$ \\(right padding zero bins)}
+\caption{Yule-Simon distribution in log-scale with right zero padding}
 \label{fig:yule-simon-log-scale-zeros-padding}
 \end{figure}
 
-\pagebreak
 \section{DNN}
-\par As stated in \cite{newman}, In practical situations we would often like to estimate $\alpha$ from observed data. One way to do this would be to fit the slope of the line in plots like figures (\ref{fig:yule-process-histograms-1b}), (\ref{fig:yule-process-histograms-1c}) Unfortunately, it is known to introduce systematic biases into the value of the exponent $\alpha$, so it should not be relied
+In practical situations we would often like to estimate $\alpha$ from observed data \cite{newman}. One way to do this would be to fit the slope of the line in plots like figures (\ref{fig:yule-process-histograms-1b}), (\ref{fig:yule-process-histograms-1c}) Unfortunately, it is known to introduce systematic biases into the value of the exponent $\alpha$, so it should not be relied
 upon.
 
-\par \textit{DNN (Deep Neural Network)}, not like simple line-fit models, can learn complex patterns. Thus, the first approach used in this project was a \textit{Regression DNN}.
+\textit{DNN (Deep Neural Network)}, not like simple line-fit models, can learn complex patterns. Thus, the first approach used in this project was a \textit{Regression DNN}.
 
-\subsection{DNN Model training}
-The \textit{DNN} model was implemented using \textit{Keras} under \textit{Jupyter Notebook}.
-
-\par The neural network has an input layer which is fed with the dataset described in section \ref{dataset}. It has couple of fully connected hidden layers with \textit{relu} activation and an output layer with a \textit{linear} activation. All layers use batch normalization, \textit{Adam} optimizer, kernel and activation \textit{regularization}. The loss function used is \textit{MSE}.
-
-\par We have made little attempts to optimize the parameters of the network, and
-so improved performance may be obtained by exploring other values.
-
-\par Input to the network has been splitted to \textit{TRAIN}, \textit{VALIDATION} and \textit{TEST} sets.
-
-\par Model training used \textit{early stopping} and \textit{reduce learning-rate on plateau}.\\
-Training used \textit{batch size} of $32$ and couple of hundred \textit{epochs}.
-
-\textit{Learning Curves} (train/validation) have been used to identify and eliminate \textit{overfitting}.
-
-\pagebreak
 \subsection{Experiments}
-In order to streamline experiments, a $trial()$ helper function has been defined.\\
+In order to streamline the experiments, a $trial()$ helper function has been defined.
+
 $trial()$ runs several iterations as defined by the following arguments:
 
 \begin{itemize}
@@ -429,15 +404,15 @@ $trial()$ runs several iterations as defined by the following arguments:
 
 The $trial()$ function calls $generate\_data(N)$ to produce growing size datasets. For each \textit{dataset} generated, $trial()$ creates a corresponding \textit{DNN} model. It then iterates over the given $\{random\_states\}$ set to train and test the model.
 
-The $trial()$ function returns:
+$trial()$ function returns:
 \begin{itemize}
 \small
   \item $[N]$: the list of $N's$ used in each iteration.
-  \item $[sqrt\_mse]$: the corresponding $sqrt(mse)$ for each iteration.
+  \item $[sqrt\_mse]$: the corresponding $\sqrt{MSE(\alpha)}$ for each iteration.
   \begin{itemize}
     \item $sqrt\_mse = sqrt(mean\_squared\_error(\alpha\_test, \alpha\_pred))$
   \end{itemize}
-  \item $[avg\_abs\_errors]$: avg of absolute errors for each iteration.
+  \item $[avg\_abs\_errors]$: AVG of absolute error for each iteration.
   \begin{itemize}
     \item $avg\_abs\_errors = avg(abs(\alpha\_test - \alpha\_pred))$
   \end{itemize}
@@ -447,115 +422,142 @@ The $trial()$ function returns:
   \end{itemize}
 \end{itemize}
 
-\pagebreak
-\subsection{DNN results}
-\par Running \textit{DNN} on $100$ alphas with 100 samples per alpha yield the following:
+\subsection{DNN}
 
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{||c c c||} 
-        \hline
-        $N$ & input-shape & $avg(sqrt(mse(\alpha)))$ \\ [0.5ex] 
-        \hline\hline
-        32 & (10000, 34) & 0.04326 \\ 
-        \hline
-        64 & (10000, 20) & 0.01430 \\
-        \hline
-        128 & (10000, 46) & 0.01480 \\
-        \hline
-        256 & (10000, 21) & 0.01041 \\
-        \hline
-        512 & (10000, 33) & 0.00908 \\ 
-        \hline
-        1024 & (10000, 63) & 0.00985 \\ 
-        \hline
-        2048 & (10000, 140) & 0.01002 \\ 
-        \hline
-    \end{tabular}
-    \caption[$mse(\alpha)$ for $DNN$]{$DNN - avg(sqrt(mse(\alpha)))$}
-    \label{table:dnn-sqrt-mse}
-\end{table}
+\subsubsection{Purpose of experiment}
+Check the precision of evaluating $\alpha$ using \textit{DNN}
 
-\textit{note}: for each $N$, we run several train/test cycles, each with different random-state and average the results:
+\subsubsection{Course of experiment}
+The \textit{DNN} model was implemented using \textit{Keras} under \textit{Jupyter Notebook}.
+
+The neural network has an input layer which is fed with the dataset described in section \ref{dataset}. It has couple of fully connected hidden layers with \textit{relu} activation and an output layer with a \textit{linear} activation. All layers use batch normalization, \textit{Adam} optimizer, kernel and activation \textit{regularization}. The loss function used is \textit{\ac{MSE}}.
+
+\subsubsection{Summary of DNN hyper parameters}
+xxx
+
+I have made little attempt to optimize the parameters of the network, and
+so improved performance may be obtained by exploring other values.
+
+Input to the network has been splitted to \textit{TRAIN}, \textit{VALIDATION} and \textit{TEST} sets.
+
+Model training used \textit{early stopping} and \textit{reduce learning-rate on plateau}.
+
+Training used \textit{batch size} of $32$ and couple of hundred \textit{epochs}.
+
+\textit{Learning Curves} (train/validation) have been used to identify and eliminate \textit{overfitting}.
+
+\textit{NOTE}: for each $N$, we run several train/test cycles, each with different random state and average results:
 \begin{minted}{python}
 for rs in random_states:
     model = train(model, X_train, y_train, ..., random_state=rs)
     y_pred = model.predict(X_test)
-    sqrt_mse = sqrt(mse(y_test, y_pred))
+    sqrt_mse = sqrt(MSE(y_test, y_pred))
     avg_sqrt_mse += sqrt_mse
     ...
 avg_sqrt_mse \= len(random_states)
 \end{minted}
 
-\subsection{DNN with zero padding}
-\par Running \textit{DNN} on the same input as above with right padding zeros yield the following:
+\subsubsection{Results}
+Running \textit{DNN} on $100$ alpha values with 100 samples per alpha yield the following:
+
 \begin{table}[h!]
     \centering
-    \begin{tabular}{||c c c||} 
+    \begin{tabular}{r r r} 
+        $N$ & input-shape & $E\left(\sqrt{MSE(\alpha)}\;\right)$ \\
         \hline
-        $N$ & input-shape & $avg(sqrt(mse(\alpha)))$ \\ [0.5ex] 
-        \hline\hline
-        32 & (10000, 44) & 0.04341 \\ 
-        \hline
-        64 & (10000, 30) & 0.01435 \\
-        \hline
-        128 & (10000, 56) & 0.01506 \\
-        \hline
-        256 & (10000, 31) & 0.01066 \\
-        \hline
-        512 & (10000, 43) & 0.00798 \\ 
-        \hline
-        1024 & (10000, 73) & 0.01143 \\ 
-        \hline
-        2048 & (10000, 150) & 0.00789 \\ 
-        \hline
+        32 & (10000, 34) & 0.04326 \\ 
+        64 & (10000, 20) & 0.01430 \\
+        128 & (10000, 46) & 0.01480 \\
+        \rowcolor{yellow}
+        256 & (10000, 21) & 0.01041 \\
+        512 & (10000, 33) & 0.00908 \\ 
+        1,024 & (10000, 63) & 0.00985 \\ 
+        2,048 & (10000, 140) & 0.01002 \\ 
     \end{tabular}
-    \caption{$mse(\alpha)$ for $DNN$ with zero padding}
+    \caption{$E\left(\sqrt{MSE(\alpha)}\right)$ for \textit{DNN}}
+    \label{table:dnn-sqrt-mse}
+\end{table}
+
+\subsubsection{Conclusions}
+\textit{DNN} is shown to achieve a stable error rate around $0.01$ for $N \geq 256$. This results are better than those reported so far $(\pm 0.02)$ for larger datasets using mathematical methods \cite{newman}. 
+
+\subsection{DNN with zero padding}
+
+\subsubsection{Purpose of experiment}
+Check the precision of evaluating $\alpha$ using \textit{DNN} with right zeros padding.
+
+\subsubsection{Course of experiment}
+Using the same \textit{DNN} as before, We've used the same input as above with right zeros padding.
+The purpose of padding the zeros to the right was to ease the network learning process.
+
+\subsubsection{Results}
+Running \textit{DNN} on the same input as above with right padding zeros yield the following:
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{r r r} 
+        $N$ & input-shape & $E\left(\sqrt{MSE(\alpha)}\;\right)$ \\
+        \hline
+        32 & (10000, 44) & 0.04341 \\ 
+        64 & (10000, 30) & 0.01435 \\
+        128 & (10000, 56) & 0.01506 \\
+        256 & (10000, 31) & 0.01066 \\
+        \rowcolor{yellow}
+        512 & (10000, 43) & \textbf{0.00798} \\ 
+        1,024 & (10000, 73) & 0.01143 \\ 
+        \rowcolor{yellow}
+        2,048 & (10000, 150) & \textbf{0.00789} \\ 
+    \end{tabular}
+    \caption{$E\left(\sqrt{MSE(\alpha)}\right)$ for \textit{DNN} with zero padding}
     \label{table:dnn-zero-sqrt-mse}
 \end{table}
 
-\pagebreak
-\subsection{DNN additional experiments}
-Before moving to describe the $CNN$ based model, it should be mentioned that several additional experiments were taken based on the $DNN$ model. Two of them are described here.
+\subsubsection{Conclusions}
+Comparing the results in table \ref{table:dnn-zero-sqrt-mse} to those in table \ref{table:dnn-sqrt-mse}, it can be seen that padding with zeros improved somewhat but not much. 
 
-Trying to help the $DNN$ model to capture the shape of the input, a \textit{sliding-avg} and a \textit{sliding-sum} manipulations on the input have been taken.
+\subsection{DNN additional experiments}
+Before moving to describe the \textit{CNN} based model, it should be mentioned that several additional experiments were taken based on the \textit{DNN} model. Two of them are described here.
+
+Trying to help the \textit{DNN} model to capture the shape of the input, a \textit{sliding-avg} and a \textit{sliding-sum} manipulations on the input have been taken.
 
 \subsubsection{DNN sliding-avg}
-By an example, suppose a row of the input is:
+For example, suppose a row of the input is:
 \begin{minted}{python}
     [1 2 3 4 5 6 7]
 \end{minted}
 
 The \textit{sliding-avg} works row-wise on window sizes of $2^i$ where $i \in \{1,2,...\}$.
 
-In the example above, valid window sizes are:
+In the example above, the valid window sizes are:
 \begin{minted}{python}
     window_sizes: [2, 4]
 \end{minted}
 
-The \textit{sliding-avg} copy a row of the input as is ($1..7$). Then, starts by sliding a window of size 2 (stride=1) and appends the avg. of every two elements ($avg(1,2)$, $avg(2,3)$, ...). Then it begins from the start with a sliding a window of size 4 (stride=1) averaging every 4 elements. The output follows:
+The \textit{sliding-avg} copy a row of the input as is ($1..7$). Then, start by sliding a window of size 2 (stride=1) and appends the avg. of every two elements ($avg(1,2)$, $avg(2,3)$, ...). Then it begins from the start with a sliding window of size 4 (stride=1) averaging every 4 elements. Output follows:
 \begin{minted}{python}
     [1.  2.  3.  4.  5.  6.  7.  1.5 2.5 3.5 4.5 5.5 6.5 2.5 3.5 4.5 5.5]
 \end{minted}
 
 \subsubsection{DNN sliding-sum}
-The \textit{sliding-sum} goes the same way as the \textit{sliding-avg} but appends the sum-elements of $window\_size=2$, then $window\_size=4$, etc. The output follows:
+The \textit{sliding-sum} goes the same way as the \textit{sliding-avg} but appends the sum elements of $window\_size=2$, then $window\_size=4$, etc. Output follows:
 \begin{minted}{python}
     [1.  2.  3.  4.  5.  6.  7.  3 5 7 9 11 13 10 14 18 22]
 \end{minted}
 
 \subsubsection{Sliding-windows results}
-It appeared that the sliding methods didn't improve performance.
+It appeared that the sliding method didn't improve performance.
 
-\pagebreak
 \section{CNN}
-Although $DNN$ yields relatively acceptable errors ($\approx 0.01$ for $N>=64$), a $~CNN$ model ($Conv1D$) has been investigated.
+Although \textit{DNN} yields relatively acceptable errors ($\approx 0.01$ for $N \geq 256$), a $~CNN$ model (\textit{Conv1D}) has been investigated.
 
-A $Conv1D$ layer creates a convolution kernel (filter) that is convolved with its input over a single spatial (or temporal) dimension to produce a tensor of outputs.
+A \textit{Conv1D} layer creates a convolution kernel (filter) that is convolved with its input over a single spatial (or temporal) dimension to produce a tensor of outputs.
 
-Filters learn feature representations of the input. The more representations used the better the performance will be (generally not always, having more filters than needed can also lead to overfitting).
+Filters learn feature representations of the input. The more representations used, the better the performance will be (generally not always, having more filters than needed can also lead to overfitting).
 
-In the first experiment we used a $Conv1D$ with 32-filters of size 3 and a $relu$ activation, followed by max-pooling $(pool\_size=2)$ and two $Dense$ layers $Dense(64, relu)$ and $Dense(1)$. The loss is again $MSE$ and the optimizer used was \textit{Adam}.
+\subsubsection{Purpose of experiment}
+Check the precision of evaluating $\alpha$ using \textit{CNN} (Conv1D).
+
+\subsubsection{Course of experiment}
+In the first experiment, we used \textit{Conv1D} with 32-filters of size 3 and a $relu$ activation, followed by max-pooling $(pool\_size=2)$ and two $Dense$ layers $Dense(64, relu)$ and $Dense(1)$. The loss is again $MSE$ and the optimizer used was \textit{Adam}.
 
 The model is fairly simple:
 \begin{minted}{python}
@@ -570,63 +572,72 @@ def create_cnn_model(n_features, filters=32):
     return model
 \end{minted}
 
-\subsection{CNN results}
-The $CNN$ model was tested the same way as the $DNN$ model using the $trials()$ helper over the same inputs. It yield the following results:
+The \textit{CNN} model was tested the same way as the \textit{DNN} model using $trials()$ helper over the same inputs.
+
+\subsubsection{Results}
+Using \textit{CNN} as described above yield the following results:
 
 \begin{table}[h!]
     \centering
-    \begin{tabular}{||c c c||} 
+    \begin{tabular}{r r r} 
+        $N$ & input-shape & $E\left(\sqrt{MSE(\alpha)}\;\right)$ \\
         \hline
-        $N$ & input-shape & $avg(sqrt(mse(\alpha)))$ \\ [0.5ex] 
-        \hline\hline
         32 & (10000, 34) & 0.04104 \\ 
-        \hline
+        \rowcolor{yellow}
         64 & (10000, 20) & 0.01080 \\
-        \hline
         128 & (10000, 46) & 0.01146 \\
-        \hline
         256 & (10000, 21) & 0.00498 \\
-        \hline
         512 & (10000, 33) & 0.00365 \\ 
-        \hline
-        1024 & (10000, 63) & 0.00219 \\ 
-        \hline
-        2048 & (10000, 140) & 0.00122 \\ 
-        \hline
+        1,024 & (10000, 63) & 0.00219 \\ 
+        \rowcolor{yellow}
+        2,048 & (10000, 140) & 0.00122 \\ 
     \end{tabular}
-    \caption{$mse(\alpha)$ for $CNN$}
+    \caption{$E\left(\sqrt{MSE(\alpha)}\right)$ for \textit{CNN}}
     \label{table:cnn-sqrt-mse}
 \end{table}
 
+\subsubsection{Conclusions}
+Comparing the results in table \ref{table:cnn-sqrt-mse} to those in table \ref{table:dnn-sqrt-mse}, it can be seen that the error improved significantly, achieving an error expectation of $\pm 0.01$ even at $N \geq 64$ and improving down to $\pm 0.001$ (an order of magnitude) for $N \geq 2,048$.
+
+This is far better than the results known so far \cite{newman}.
+
 \subsection{CNN with zero padding}
-\par Running \textit{CNN} on the same input as above with right padding zeros yield the following:
+\subsubsection{Purpose of experiment}
+Check the precision of evaluating $\alpha$ using \textit{CNN} with right zeros padding.
+
+\subsubsection{Course of experiment}
+Running the same \textit{CNN} as described above with the same input and right zeros padding.
+
+\subsubsection{Results}
+This experiment yield the following results:
 \begin{table}[h!]
     \centering
-    \begin{tabular}{||c c c||} 
+    \begin{tabular}{r r r} 
+        $N$ & input-shape & $E\left(\sqrt{MSE(\alpha)}\;\right)$ \\
         \hline
-        $N$ & input-shape & $avg(sqrt(mse(\alpha)))$ \\ [0.5ex] 
-        \hline\hline
         32 & (10000, 44) & 0.04111 \\ 
-        \hline
         64 & (10000, 30) & 0.01085 \\
-        \hline
         128 & (10000, 56) & 0.01161 \\
-        \hline
         256 & (10000, 31) & 0.00483 \\
-        \hline
         512 & (10000, 43) & 0.00329 \\ 
-        \hline
-        1024 & (10000, 73) & 0.00229 \\ 
-        \hline
-        2048 & (10000, 150) & 0.00110 \\ 
-        \hline
+        1,024 & (10000, 73) & 0.00229 \\ 
+        2,048 & (10000, 150) & 0.00110 \\ 
     \end{tabular}
-    \caption{$mse(\alpha)$ for $CNN$ with zero padding}
+    \caption{$E\left(\sqrt{MSE(\alpha)}\right)$ for \textit{CNN} with zero padding}
     \label{table:cnn-zeros-sqrt-mse}
 \end{table}
 
+\subsubsection{Conclusions}
+Comparing the results in table \ref{table:cnn-sqrt-mse} to those in table \ref{table:cnn-zeros-sqrt-mse}, it can be seen that padding with zeros did not improve the error. 
+
 \section{CNN multi-layer}
-The second $CNN$ experiment used a multi-layer with multiple $Conv1D$ and pooling:
+The second \textit{CNN} experiment used a multi-layer with multiple \textit{Conv1D} and \textit{pooling}.
+
+\subsubsection{Purpose of experiment}
+Check the precision of evaluating $\alpha$ using \textit{multi-layer CNN}.
+
+\subsubsection{Course of experiment}
+The multi-layer \textit{CNN} model is defined as follow:
 
 \begin{minted}{python}
 def create_cnn_model_multi_layer(n_features, filters=32):
@@ -655,64 +666,62 @@ def create_cnn_model_multi_layer(n_features, filters=32):
     return model
 \end{minted}
 
-\newpage
-\subsection{CNN multi-layer results}
-\par Running \textit{CNN multi-layer} on the same input as above yield the following:
+\subsubsection{Results}
+Running \textit{CNN multi-layer} on the same input as above yields the following:
 \begin{table}[h!]
     \centering
-    \begin{tabular}{||c c c||} 
+    \begin{tabular}{r r r} 
+        $N$ & input-shape & $E\left(\sqrt{MSE(\alpha)}\;\right)$ \\
         \hline
-        $N$ & input-shape & $avg(sqrt(mse(\alpha)))$ \\ [0.5ex] 
-        \hline\hline
         32 & (10000, 44) & 0.04095 \\ 
-        \hline
         64 & (10000, 30) & 0.01097 \\
-        \hline
         128 & (10000, 56) & 0.01028 \\
-        \hline
         256 & (10000, 31) & 0.00474 \\
-        \hline
         512 & (10000, 43) & 0.00302 \\ 
-        \hline
-        1024 & (10000, 73) & 0.00158 \\ 
-        \hline
-        2048 & (10000, 150) & 0.00096 \\ 
-        \hline
+        \rowcolor{yellow}
+        1,024 & (10000, 73) & 0.00158 \\ 
+        2,048 & (10000, 150) & 0.00096 \\ 
     \end{tabular}
-    \caption{$mse(\alpha)$ for $CNN$ multi-layer}
+    \caption{$E\left(\sqrt{MSE(\alpha)}\right)$ for \textit{CNN} multi-layer}
     \label{table:cnn-multi-sqrt-mse}
 \end{table}
 
-\subsection{CNN multi-layer with zero padding}
-\par Running \textit{CNN multi-layer} with zero padding on the same input as above with right padding zeros yield the following:
+\subsubsection{Conclusions}
+Comparing the results in table \ref{table:cnn-multi-sqrt-mse} to those in table \ref{table:cnn-sqrt-mse}, it can be seen that the error did not improve significantly relative to \textit{CNN}, achieving an error expectation of $\pm 0.001$ at $N \geq 1,024$ (an order of magnitude relative to \textit{DNN}).
+
+\subsection{CNN multilayer with zero padding}
+This experiment follows the previous ones using right zeros padding.
+
+\subsubsection{Purpose of experiment}
+Check the precision of evaluating $\alpha$ using \textit{multilayer CNN} with right zeros padding.
+
+\subsubsection{Course of experiment}
+As before, using the same network (\textit{CNN multilayer}) with the same input padded with zeros on the right. 
+
+\subsubsection{Results}
+This experiment yield the following results:
 \begin{table}[h!]
     \centering
-    \begin{tabular}{||c c c||} 
+    \begin{tabular}{r r r} 
+        $N$ & input-shape & $E\left(\sqrt{MSE(\alpha)}\;\right)$ \\
         \hline
-        $N$ & input-shape & $avg(sqrt(mse(\alpha)))$ \\ [0.5ex] 
-        \hline\hline
         32 & (10000, 44) & 0.04150 \\ 
-        \hline
         64 & (10000, 30) & 0.01094 \\
-        \hline
         128 & (10000, 56) & 0.01075 \\
-        \hline
         256 & (10000, 31) & 0.00438 \\
-        \hline
         512 & (10000, 43) & 0.00274 \\ 
-        \hline
-        1024 & (10000, 73) & 0.00159 \\ 
-        \hline
-        2048 & (10000, 150) & 0.00068 \\ 
-        \hline
+        1,024 & (10000, 73) & 0.00159 \\ 
+        2,048 & (10000, 150) & 0.00068 \\ 
     \end{tabular}
-    \caption{$mse(\alpha)$ for $CNN$ multi-layer with zero padding}
+    \caption{$E\left(\sqrt{MSE(\alpha)}\right)$ for \textit{CNN} multi-layer with zero padding}
     \label{table:cnn-multi-zeros-sqrt-mse}
 \end{table}
 
-\pagebreak
+\subsubsection{Conclusions}
+As in the case of \textit{DNN}, padding with zeros did not improve the error significantly.
+
 \section{METHODS COMPARISON}
-Table \ref{table:sqrt-mse-comparison} summarise $\sqrt{mse(\alpha)}$ for $N=2^i~ i\in\{5...11\}$ for the different methods used.
+Table \ref{table:sqrt-mse-comparison} summarise $\sqrt{MSE(\alpha)}$ for $N=2^i~ i\in\{5...11\}$ for the different methods used.
 \begin{table}[!htb]
     \sffamily
     \scriptsize
@@ -721,74 +730,59 @@ Table \ref{table:sqrt-mse-comparison} summarise $\sqrt{mse(\alpha)}$ for $N=2^i~
         $m$: multi-layer CNN
     }
     \centering
-    \begin{tabular}{||c c c c c c c||} 
+    \begin{tabular}{r r r r r r r} 
+        $N$ & $DNN$ & $DNN_z$ & $CNN$ & $CNN_z$ & $CNN_m$ & $CNN_{m,z}$ \\
         \hline
-        $N$ & $DNN$ & $DNN_z$ & $CNN$ & $CNN_z$ & $CNN_m$ & $CNN_{m,z}$ \\ [0.5ex] 
-        \hline\hline
         32 & 0.043260 & 0.043405 & 0.041040 & 0.041108 & 0.040951 & 0.041504 \\ 
-        \hline
         64 & 0.014299 & 0.014351 & 0.010801 & 0.010851 & 0.010968 & 0.010939 \\
-        \hline
         128 & 0.014803 & 0.015061 & 0.011461 & 0.011613 & 0.010276 & 0.010751 \\
-        \hline
         256 & 0.010409 & 0.010662 & 0.004984 & 0.004832 & 0.004736 & 0.004380 \\
-        \hline
         512 & 0.009084 & 0.007984 & 0.003653 & 0.003293 & 0.003019 & 0.002745 \\
-        \hline
-        1024 & 0.009846 & 0.011425 & 0.002195 & 0.002291 & 0.001577 & 0.001586 \\
-        \hline
-        2048 & 0.010022 & 0.007886 & 0.001215 & 0.001096 & 0.000956 & 0.000675 \\
-        \hline
+        1,024 & 0.009846 & 0.011425 & 0.002195 & 0.002291 & 0.001577 & 0.001586 \\
+        2,048 & 0.010022 & 0.007886 & 0.001215 & 0.001096 & 0.000956 & 0.000675 \\
     \end{tabular}
-    \caption{$sqrt(mse(\alpha))$ comparison}
+    \caption{$\sqrt{MSE(\alpha)}$ comparison}
     \label{table:sqrt-mse-comparison}
 \end{table}
 
 Figure \ref{fig:mse-alpha-comparison} displays a (\textit{logarithmic}) plot of the errors for different $N's$ for each of the methods. The performance of the \textit{CNN} methods over the \textit{DNN} stands out.
-\begin{figure}[!htb]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.7\linewidth]{./sqrt_mse_compare}
-\caption{$mse(\alpha)$ comparison}
+\caption{$MSE(\alpha)$ comparison}
 \label{fig:mse-alpha-comparison}
 \end{figure}
 
 Table \ref{table:STD-comparison} summarise $STD$ of the different methods used.
+This is another view showing the advantage of the \textit{CNN} based models.  
 \begin{table}[!htb]
     \sffamily
     \scriptsize
     \centering
-    \begin{tabular}{||c c c c c c c||} 
+    \begin{tabular}{r r r r r r r} 
+        $N$ & $DNN$ & $DNN_z$ & $CNN$ & $CNN_z$ & $CNN_m$ & $CNN_{m,z}$ \\
         \hline
-        $N$ & $DNN$ & $DNN_z$ & $CNN$ & $CNN_z$ & $CNN_m$ & $CNN_{m,z}$ \\ [0.5ex] 
-        \hline\hline
     	32 & 0.023159 & 0.023944 & 0.025286 & 0.025220 & 0.025482 & 0.024870 \\
-    	\hline
     	64 & 0.006112 & 0.005835 & 0.007213 & 0.007136 & 0.007140 & 0.007112 \\
-    	\hline
     	128 & 0.007661 & 0.007169 & 0.007652 & 0.007497 & 0.006669 & 0.006585 \\
-    	\hline
     	256 & 0.003591 & 0.002905 & 0.003501 & 0.003425 & 0.002951 & 0.003059 \\
-    	\hline
     	512 & 0.002553 & 0.002169 & 0.002071 & 0.002125 & 0.001828 & 0.001911 \\
-    	\hline
-    	1024 & 0.001992 & 0.003733 & 0.001593 & 0.001700 & 0.001009 & 0.001019 \\
-    	\hline
-    	2048 & 0.003038 & 0.001441 & 0.000609 & 0.000606 & 0.000533 & 0.000425 \\
-	\hline
+    	1,024 & 0.001992 & 0.003733 & 0.001593 & 0.001700 & 0.001009 & 0.001019 \\
+    	2,048 & 0.003038 & 0.001441 & 0.000609 & 0.000606 & 0.000533 & 0.000425 \\
     \end{tabular}
     \caption{$STD$ comparison}
     \label{table:STD-comparison}
 \end{table}
 
-\newpage
+
 \subsection{T-TEST}
-Is the difference in performance between two machine learning models real, or due to a statistical fluke? Statistical significance tests are designed to address this question.
+Is the difference in performance between the two machine learning models real, or due to a statistical fluke? Statistical significance tests are designed to address this question.
 
 \textit{T-TEST} compares two averages (means) and tells us if they are different from each other and how significant the differences are; In other words it lets us know if those differences could have happened by chance.
 
 We will use a paired \textit{T-TEST} to compare the results of the different methods used in this project, particularly, the results of \textit{DNN} versus those of \textit{CNN}.
 
-The model\_compare function accepts two models and compares the significance of the difference between their performance (see pseudo code below):
+The model\_compare function accepts the two models and compares the significance of the difference between their performances (see pseudo code below):
 
 \begin{minted}{python}
 from scipy import stats
@@ -810,40 +804,30 @@ def model_compare(nn1='DNN', nn2='CNN', N_pow, num_tests)
     return stats.ttest_rel(a, b)
 \end{minted}
 
-Table \ref{table:ttest-comparison} summarize the results of comparing some models.\\
-We can see $ttest(DNN, CNN)$ for $N >= 256$ pops out, compatible with Figure \ref{fig:mse-alpha-comparison}.
+Table \ref{table:ttest-comparison} summarize the results of comparing some models.
+
+We can see $ttest(DNN, CNN)$ for $N \geq 256$ pops out, compatible with Figure \ref{fig:mse-alpha-comparison}.
 
 \begin{table}[h!]
     \scriptsize
     \centering
-    \begin{tabular}{||c c c c c||} 
+    \begin{tabular}{l l r r l} 
+        $nn1$ & $nn2$ & $N$ & num\_tests & ttest-$p$ \\
         \hline
-        $nn1$ & $nn2$ & $N$ & num\_tests & ttest-$p$ \\ [0.5ex] 
-        \hline\hline
         $DNN$ & $DNN_z$ & 64 & 10 & 0.23833 \\ 
-        \hline
         $DNN$ & $DNN_z$ & 256 & 5 & \textbf{0.04087} \\ 
-        \hline
         $DNN$ & $CNN$ & 64 & 10 & 0.47183 \\ 
-        \hline
         $DNN$ & $CNN$ & 128 & 5 & 0.08147 \\ 
-        \hline
         \rowcolor{yellow}
         $DNN$ & $CNN$ & 256 & 5 & \textbf{0.01962} \\ 
-        \hline
         \rowcolor{yellow}
-        $DNN$ & $CNN$ & 1024 & 5 & \textbf{0.00776} \\ 
-        \hline
+        $DNN$ & $CNN$ & 1,024 & 5 & \textbf{0.00776} \\ 
         $CNN$ & $CNN_z$ & 64 & 10 & 0.44374 \\ 
-        \hline
         $CNN$ & $CNN_z$ & 256 & 5 & 0.24146 \\ 
-        \hline
         $CNN$ & $CNN_m$ & 64 & 10 & 0.89247 \\ 
-        \hline
         $CNN$ & $CNN_m$ & 256 & 5 & 0.57363 \\ 
-        \hline
     \end{tabular}
-    \caption{t-test model comparison}
+    \caption{t-test comparison of the models used in the experiments}
     \label{table:ttest-comparison}
 \end{table}
 
@@ -851,25 +835,122 @@ We can see $ttest(DNN, CNN)$ for $N >= 256$ pops out, compatible with Figure \re
 
 \begin{enumerate}
 \small
-    \item We have shown (table \ref{table:sqrt-mse-comparison}) that the exponent $\alpha$ of \textit{Yule-Simon} may be predicted using $DNN$ models with an error $\sqrt{MSE(\alpha)} \approx 0.01$ starting from $N \geq 256$.
+    \item We have shown (table \ref{table:sqrt-mse-comparison}) that the exponent $\alpha$ of \textit{Yule-Simon} may be predicted using \textit{DNN} models with an error $\sqrt{MSE(\alpha)} \approx 0.01$ starting from $N \geq 256$.
     
-    \item We have also shown that using $CNN$ models, the error is reduced by an order of magnitude ($\sqrt{MSE(\alpha)} \approx 0.001$) starting from $N \geq 1024$.
+    \item We have also shown that using \textit{CNN} models, the error is reduced by an order of magnitude ($\sqrt{MSE(\alpha)} \approx 0.001$) starting from $N \geq 1,024$.
     
     \item Using \textsc{t-test} (table \ref{table:ttest-comparison}) we have shown that there is a significant difference between the means of the errors produced by the \textit{CNN} models and those produced by the \textit{DNN} models. Thus \textit{CNN} should be preferred.
 \end{enumerate}
 
-\section{FURTHER INVESTIGATION}
-There are some issues and subjects left for further investigation. \\
+\section{FURTHER RESEARCH}
+There are some issues and subjects left for further research.
+
 Here is a partial list:
 
 \begin{itemize}
 \small
-    \item In table \ref{table:sqrt-mse-comparison} and also in figure \ref{fig:mse-alpha-comparison} we can see an error increase for $N=128$. This behaviour is repeated in several test runs and can be seen also in the \textit{CNN} based models. In \textit{DNN} this behaviour pops up also for $N=1024$. We cannot yet explain this.
+    \item In table \ref{table:sqrt-mse-comparison} and also in figure \ref{fig:mse-alpha-comparison} we can see an error increase (knee) for $N=128$. This behaviour is repeated in several test runs and can be seen also in the \textit{CNN} based models. In \textit{DNN} this behaviour pops up also for $N=1,024$. We cannot yet explain this.
     
     \item We invested relatively little effort in optimizing the models, especially the \textit{multi-layer CNN} model. Further optimization or different network architectures may achieve yet better performance.
     
-    \item A followup project may use \textit{DL} to classify observed data as one that obeys \textit{power law} distribution from other distributions.
+    \item A follow-up project may use \textit{DL} to classify observed data as one that obeys \textit{power law} distribution from other distributions.
 \end{itemize}
 
+%===================== SOFTWARE REQUIREMENTS ============================= %
+\section{SOFTWARE REQUIREMENTS}
+The project was developed with \textit{Python 3.8} under \textit{Jupyter notebook}.
+
+I advise on working with \textit{Python Virtual Environment}.
+
+The \textit{Keras} framework was used for developing the machine learning models.
+
+Source code can be found \href{https://github.com/yossi-cohen/preferential-attachment}{here}.
+
+\textit{numpy/scipy} and other required Python packages are listed in
+\begin{minted}{bash}
+requirements.txt
+\end{minted}
+
+Once Python, pip and virtual environment are installed, you can change to the project directory and use the following command to install the requirements:
+\begin{minted}{bash}
+(my-venv) $ pip install -r requirements.txt
+\end{minted}
+
+\subsection{Installing Python 3.8 on Ubuntu with Apt}
+\begin{enumerate}
+  \item Run the following commands as root or user with sudo access to update the packages list and install the prerequisites:
+  \begin{minted}{bash}
+  $ sudo apt install software-properties-common
+  \end{minted}
+
+  \item Add the deadsnakes PPA to your system’s sources list:
+  \begin{minted}{bash}
+  $ sudo add-apt-repository ppa:deadsnakes/ppa
+  \end{minted}
+  
+  When prompted press Enter to continue:  
+  \begin{minted}{bash}
+  Output: $ Press [ENTER] to continue or Ctrl-c to cancel adding it.
+  \end{minted}
+
+  \item Once the repository is enabled, install Python 3.8 with:
+  \begin{minted}{bash}
+  $ sudo apt install python3.8
+  \end{minted}
+
+  \item Verify that the installation was successful by typing:
+  \begin{minted}{bash}
+  $ python3.8 --version
+  \end{minted}
+  \begin{minted}{bash}
+  Output: $ Python 3.8.0
+  \end{minted}
+  
+\end{enumerate}
+
+\subsection{Create Virtual Environment for Python 3}
+\begin{enumerate}
+  \item Let’s start by installing the python3-venv package that provides the venv module.
+  \begin{minted}{bash}
+  $ sudo apt install python3-venv
+  \end{minted}
+  
+  Once the module is installed we are ready to create virtual environments for Python 3.
+
+  \item Switch to the directory where you would like to store your Python 3 virtual environments. Within the directory run the following command to create your new virtual environment:
+  \begin{minted}{bash}
+  $ python3 -m venv my-venv
+  \end{minted}
+  
+  The command above creates a directory called my-venv, which contains a copy of the Python binary, the Pip package manager, the standard Python library and other supporting files.
+  
+  \item To start using this virtual environment, you need to activate it by running the activate script:
+  \begin{minted}{bash}
+  $ source my-venv/bin/activate
+  \end{minted}
+  
+  Once activated, the virtual environment’s bin directory will be added at the beginning of the \$PATH variable. Also your shell’s prompt will change and it will show the name of the virtual environment you’re currently using. In our case that is my-venv:
+  \begin{minted}{bash}
+  Output: $ source my-venv/bin/activate
+  (my-venv) $
+  \end{minted}
+  
+  Now that the virtual environment is activated, we can start installing, upgrading, and removing packages using pip.
+  
+\end{enumerate}
+
+%========================= BIBLIOGRAPHY ================================= %
 \printbibliography
-\end{document} 
+
+%========================= LIST OF ACRONYMS ================================= %
+\section*{\begin{center}\textit{List of acronyms}\end{center}}
+
+\begin{acronym}[MSE] % Give the longest label here so that the list is nicely aligned
+\acro{MSE}{Mean squared error: MSE = $\displaystyle\frac{1}{n}\sum_{i=1}^{n}e_i^2$}
+\acro{DNN}{Deep Neural Network}
+\acro{CNN}{Convolution Neural Network}
+\acro{Conv1D} {1 Dimension Convolution}
+\end{acronym}
+
+\end{document}
+
