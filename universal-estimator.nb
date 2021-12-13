@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    107764,       2392]
-NotebookOptionsPosition[    101773,       2280]
-NotebookOutlinePosition[    102230,       2298]
-CellTagsIndexPosition[    102187,       2295]
+NotebookDataLength[    113461,       2532]
+NotebookOptionsPosition[    107370,       2419]
+NotebookOutlinePosition[    107827,       2437]
+CellTagsIndexPosition[    107784,       2434]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -2082,16 +2082,18 @@ Uf8ilDd19c35SPoijJYYm2+PY/VOEdZdyN8T8ITuPztUDSdDO7+v+n8PaWhN
 
 Cell[CellGroupData[{
 
-Cell["Experiment", "Section",
+Cell["Experiments", "Section",
  CellChangeTimes->{{3.846308959741107*^9, 3.8463089629031153`*^9}, 
-   3.848380874581787*^9},ExpressionUUID->"ab6c6359-50f5-4841-a4c0-\
+   3.848380874581787*^9, 
+   3.8483830957039213`*^9},ExpressionUUID->"ab6c6359-50f5-4841-a4c0-\
 db33d4c71622"],
 
 Cell[CellGroupData[{
 
 Cell["Define some longtail distributions", "Subsubsection",
- CellChangeTimes->{{3.848380828676749*^9, 
-  3.848380837062138*^9}},ExpressionUUID->"f8378b50-863a-4c0f-b3c5-\
+ CellChangeTimes->{{3.848380828676749*^9, 3.848380837062138*^9}, {
+  3.848385011907755*^9, 
+  3.848385016116518*^9}},ExpressionUUID->"f8378b50-863a-4c0f-b3c5-\
 b99acf7a99fb"],
 
 Cell[BoxData[
@@ -2114,13 +2116,13 @@ Cell[BoxData[
       RowBox[{
        RowBox[{"WaringYuleDistribution", "[", 
         RowBox[{"\[Alpha]", ",", "\[Beta]"}], "]"}], ",", "M"}], "]"}]}], 
-    ";"}], "\n", "\[IndentingNewLine]", 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{
     "Sample", " ", "M", " ", "observations", " ", "from", " ", "the", " ", 
      "PowerLaw", " ", "distribution", " ", "with", " ", "domain", " ", 
      "parameter", " ", "k", " ", "and", " ", "shape", " ", "parameter", " ", 
-     RowBox[{"a", "."}]}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"a", "."}]}], "*)"}], "\n", 
    RowBox[{
     RowBox[{
      RowBox[{"PowerLawRV", "[", 
@@ -2131,8 +2133,8 @@ Cell[BoxData[
       RowBox[{
        RowBox[{"PowerDistribution", "[", 
         RowBox[{"k", ",", "a"}], "]"}], ",", "M"}], "]"}]}], ";"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   RowBox[{"(*", "distributions", "*)"}], "\n", 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", "distributions", "*)"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"distributions", " ", "=", " ", 
      RowBox[{"Association", "[", "\[IndentingNewLine]", 
@@ -2261,19 +2263,156 @@ Cell["Run experiments", "Subsubsection",
   3.848382548605825*^9}},ExpressionUUID->"15887c72-7220-427e-8780-\
 4ae243e516fe"],
 
+Cell[TextData[{
+ "Run the experiment for each ",
+ StyleBox["longtail",
+  FontSlant->"Italic"],
+ " distribution.\n",
+ "\n\[Bullet] Let ",
+ StyleBox["P",
+  FontSlant->"Italic"],
+ " = the number of parameters for the distribution",
+ ".\n  ",
+ "Create a ",
+ StyleBox["P",
+  FontSlant->"Italic"],
+ "-dimensional mesh on the unit square, with a resolution of 0.1 (i.e: 0.1, \
+0.2, ... , 0.9)\n  The mesh is a cube of size ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["9", "P"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "267eb6f9-6769-4560-bdd7-6fa88a1e0195"],
+ " (e.g: 81 cell matrix for 2 params)\n\n\[Bullet] Generate learning samples \
+for each data point in the mesh (using ",
+ StyleBox["GenerateData",
+  FontSlant->"Italic"],
+ " defined above).\n\n\[Bullet] At each mesh point:\n\t\[Bullet] Train a ",
+ StyleBox["NN",
+  FontSlant->"Italic"],
+ " model at each mesh point for predicting the parameters of the distribution \
+at that point.\n\t\[Bullet] Run several predictions of the parameters at that \
+point and average the ",
+ StyleBox["prediction error",
+  FontSlant->"Italic"],
+ ".\n\t\[Bullet] Compute the ",
+ StyleBox["Cramer-Raw bound",
+  FontSlant->"Italic"],
+ " for the mesh point.\n\t\[Bullet] Record the relation ",
+ " ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox[
+    RowBox[{"prediction", " ", "error"}], 
+    StyleBox[
+     RowBox[{"Cramer", "-", 
+      RowBox[{"Raw", " ", "bound"}]}],
+     FontSlant->"Italic"]], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "351ab90e-e281-40e8-9b4b-24de7ebdc9dd"],
+ StyleBox["\n",
+  FontSlant->"Italic"],
+ "\[Bullet] Plot a surface of the relation above at each mesh point, \
+hopefully showing a value around 2 at each point.",
+ StyleBox["\n",
+  FontSlant->"Italic"]
+}], "Text",
+ CellChangeTimes->{{3.848383251230095*^9, 3.848383512927554*^9}, {
+  3.848384014148806*^9, 3.848384221381784*^9}, {3.848384252898169*^9, 
+  3.84838429549341*^9}, {3.848384334741293*^9, 3.84838435427005*^9}, {
+  3.848384402430026*^9, 3.848384539029242*^9}, {3.848384569114341*^9, 
+  3.8483847350822687`*^9}, {3.848384788405478*^9, 3.848385057789545*^9}, {
+  3.8483859821230907`*^9, 3.8483859839526777`*^9}, {3.848386044264591*^9, 
+  3.848386086252923*^9}},ExpressionUUID->"5d2676df-fd90-4ca1-adb5-\
+89861d8fe7a3"],
+
 Cell[BoxData[
  RowBox[{
-  RowBox[{"(*", 
+  RowBox[{"RunExperiment", "[", 
+   RowBox[{"distributions_", ",", " ", "distname_"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
    RowBox[{
-    RowBox[{"results", " ", "=", " ", 
+    RowBox[{"{", 
      RowBox[{
-     "Import", "[", 
-      "\"\</home/yossi/Documents/Wolfram Mathematica/cached_mesh_points.csv\>\
-\"", "]"}]}], ";", "\[IndentingNewLine]", 
-    RowBox[{"Print", "[", 
-     RowBox[{"results", "//", "TableForm"}], "]"}], ";"}], "*)"}], 
-  "\[IndentingNewLine]"}]], "Input",ExpressionUUID->"bc1f4e1a-113a-4c25-a778-\
-68d12a5635b2"]
+     "dist", ",", " ", "f", ",", " ", "ranges", ",", " ", "M", ",", " ", 
+      "adjuster1", ",", " ", "adjuster2", ",", " ", "mesh"}], "}"}], ",", 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+     "get", " ", "definitions", " ", "for", " ", "specified", " ", 
+      "distribution"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"dist", " ", "=", " ", 
+      RowBox[{"distributions", "[", "distname", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"f", " ", "=", " ", 
+      RowBox[{"dist", "[", "\"\<dist\>\"", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"ranges", " ", "=", " ", 
+      RowBox[{"dist", "[", "\"\<ranges\>\"", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"M", " ", "=", " ", 
+      RowBox[{"dist", "[", "\"\<M\>\"", "]"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "generate", " ", "an", " ", "adapter", " ", "for", " ", "each", " ", 
+       "parameter", " ", "range"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"adjuster1", "=", 
+      RowBox[{"Adjuster", "[", 
+       RowBox[{
+        RowBox[{"ranges", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ",", "1"}], "]"}], "]"}], ",", 
+        RowBox[{"ranges", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ",", "2"}], "]"}], "]"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"adjuster2", "=", 
+      RowBox[{"Adjuster", "[", 
+       RowBox[{
+        RowBox[{"ranges", "[", 
+         RowBox[{"[", 
+          RowBox[{"2", ",", "1"}], "]"}], "]"}], ",", 
+        RowBox[{"ranges", "[", 
+         RowBox[{"[", 
+          RowBox[{"2", ",", "2"}], "]"}], "]"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"create", " ", "a", " ", "parameters", " ", "mesh"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"mesh", " ", "=", " ", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"adjuster1", "[", 
+           FractionBox["i", "10"], "]"}], ",", 
+          RowBox[{"adjuster2", "[", 
+           FractionBox["j", "10"], "]"}]}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", "9"}], " ", "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", "9"}], " ", "}"}]}], "]"}]}], ";"}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"train", " ", "mesh", " ", "points"}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", "output", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.848386507343307*^9, 3.8483865343043833`*^9}, {
+  3.848386568616294*^9, 3.8483865961493692`*^9}, {3.848386627339435*^9, 
+  3.848386628320922*^9}, {3.848386663662747*^9, 3.848386777458721*^9}, {
+  3.848386809148302*^9, 3.848386864074359*^9}, {3.848386895621539*^9, 
+  3.8483869819268847`*^9}, {3.848387055969668*^9, 3.848387075846723*^9}, {
+  3.84838712663973*^9, 3.8483871408223133`*^9}, {3.848387172485259*^9, 
+  3.848387179270097*^9}, {3.848387248894239*^9, 3.848387266918489*^9}, {
+  3.848389530832541*^9, 3.8483895957634773`*^9}, {3.848389672427*^9, 
+  3.848389841690835*^9}, {3.848389947369946*^9, 3.848389957438878*^9}, {
+  3.848390006656579*^9, 3.848390010625463*^9}, {3.848390081607723*^9, 
+  3.848390101454609*^9}},ExpressionUUID->"291f3c3b-b0dd-436e-8f2f-\
+b5e031cd272b"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
@@ -2379,18 +2518,19 @@ Cell[75354, 1678, 17884, 400, 469, "Output",ExpressionUUID->"11fa4924-1584-4cdd-
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[93287, 2084, 180, 3, 67, "Section",ExpressionUUID->"ab6c6359-50f5-4841-a4c0-db33d4c71622"],
+Cell[93287, 2084, 209, 4, 67, "Section",ExpressionUUID->"ab6c6359-50f5-4841-a4c0-db33d4c71622"],
 Cell[CellGroupData[{
-Cell[93492, 2091, 185, 3, 45, "Subsubsection",ExpressionUUID->"f8378b50-863a-4c0f-b3c5-b99acf7a99fb"],
-Cell[93680, 2096, 3331, 78, 251, "Input",ExpressionUUID->"3b17ee2c-98d3-4369-bd7a-b83c313cb571"],
+Cell[93521, 2092, 234, 4, 45, "Subsubsection",ExpressionUUID->"f8378b50-863a-4c0f-b3c5-b99acf7a99fb"],
+Cell[93758, 2098, 3331, 78, 251, "Input",ExpressionUUID->"3b17ee2c-98d3-4369-bd7a-b83c313cb571"],
 Cell[CellGroupData[{
-Cell[97036, 2178, 1065, 30, 185, "Input",ExpressionUUID->"1c3663ed-bd6b-4816-8f5c-47af7a3fe1ac"],
-Cell[98104, 2210, 2974, 42, 101, "Output",ExpressionUUID->"e78fbb88-5f04-4b04-acc0-da28c8787208"]
+Cell[97114, 2180, 1065, 30, 185, "Input",ExpressionUUID->"1c3663ed-bd6b-4816-8f5c-47af7a3fe1ac"],
+Cell[98182, 2212, 2974, 42, 101, "Output",ExpressionUUID->"e78fbb88-5f04-4b04-acc0-da28c8787208"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[101127, 2258, 166, 3, 45, "Subsubsection",ExpressionUUID->"15887c72-7220-427e-8780-4ae243e516fe"],
-Cell[101296, 2263, 437, 12, 75, "Input",ExpressionUUID->"bc1f4e1a-113a-4c25-a778-68d12a5635b2"]
+Cell[101205, 2260, 166, 3, 45, "Subsubsection",ExpressionUUID->"15887c72-7220-427e-8780-4ae243e516fe"],
+Cell[101374, 2265, 2290, 61, 361, "Text",ExpressionUUID->"5d2676df-fd90-4ca1-adb5-89861d8fe7a3"],
+Cell[103667, 2328, 3663, 86, 479, "Input",ExpressionUUID->"291f3c3b-b0dd-436e-8f2f-b5e031cd272b"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
